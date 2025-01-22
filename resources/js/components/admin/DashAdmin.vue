@@ -1,0 +1,243 @@
+<template>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title fw-semibold mb-4">Admins</h5>
+                <div class="row">
+                    <div class="col-lg-12 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                                    <button class="btn btn-primary" @click="openEditModal()">Add New Admin</button>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table text-nowrap mb-0 align-middle">
+                                        <thead class="text-dark fs-4">
+                                            <tr>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Id</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Name</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Email</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Bio</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Profile Image</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Created At</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Updated At</h6>
+                                                </th>
+                                                <th class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">Action</h6>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Example data; this would be dynamically populated with server-side data -->
+                                            <tr v-for="(admin, index) in admins" :key="admin.id">
+                                                <td class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">{{ index + 1 }}</h6>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">{{ admin.name }}</h6>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-0">{{ admin.email }}</h6>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal">{{ admin.bio }}
+                                                    </p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <img :src="admin.profile_img" class="rounded-circle"
+                                                        style="width: 50px; height: 50px;">
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal">{{ formatDate(admin.created_at) }}</p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal">{{ formatDate(admin.updated_at) }}</p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <button class="btn btn-sm btn-primary">Edit</button>
+                                                    <button class="btn btn-sm btn-danger ms-2">Delete</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for Adding a New Admin -->
+                <div class="modal fade" id="addAdminModal" tabindex="-1" aria-labelledby="addAdminModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addAdminModalLabel">Add New Admin</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form @submit.prevent="addAdmin">
+                                    <div class="mb-3">
+                                        <label for="adminName" class="form-label">Name</label>
+                                        <input type="text" v-model="form.name" class="form-control" id="adminName"
+                                            name="name" placeholder="Enter Name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="adminEmail" class="form-label">Email</label>
+                                        <input type="email" v-model="form.email" class="form-control" id="adminEmail"
+                                            name="email" placeholder="Enter Email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label mb-0">Confirm
+                                            Password</label>
+                                        <input type="password" v-model="form.password" class="form-control"
+                                            id="exampleInputPassword1">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label mb-0">Confirm
+                                            Password</label>
+                                        <input type="password" v-model="form.password_confirmation" class="form-control"
+                                            id="exampleInputPassword1">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="adminBio" class="form-label">Bio</label>
+                                        <textarea class="form-control" v-model="form.bio" id="adminBio" name="bio"
+                                            rows="3" placeholder="Enter Bio"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="adminProfileImg" class="form-label">Profile Image</label>
+                                        <input type="file" @change="onFileSelect" class="form-control"
+                                            id="adminProfileImg" name="profile_img"
+                                            placeholder="Enter Profile Image URL">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import moment from "moment";
+export default {
+    name: "DashAdmin",
+    setup() {
+        const form = ref({
+            name: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
+            bio: "",
+            profile_img: ""
+        })
+        const onFileSelect = (event) => {
+            const file = event.target.files[0];
+            if (file.size > 1048576) {
+                Toast.fire({
+                    icon: "warning",
+                    title: "Image must be less than 1 MB!",
+                });
+            } else {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    form.value.profile_img = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        const addAdmin = async () => {
+            console.log(form.value)
+            await axios.post('/api/admins', form.value)
+                .then((res) => {
+                    console.log(res)
+                    if (res.data && res.status === 201) {
+                        form.value.name = "",
+                            form.value.email = "",
+                            form.value.password = "",
+                            form.value.password_confirmation = "",
+                            form.value.bio = "",
+                            form.value.profile_img = ""
+                        let myModal = bootstrap.Modal.getInstance(
+                            document.getElementById("addAdminModal")
+                        );
+                        myModal.hide();
+                        fetchAdmin()
+                        Toast.fire({
+                            icon: "success",
+                            title: "Admin Successfully Registered"
+                        });
+                    }
+                })
+                .catch((err) => {
+                    Toast.fire({
+                        icon: "warning",
+                        title: "some of problem"
+                    });
+                })
+        }
+        const admins = ref([]);
+        const fetchAdmin = async () => {
+            await axios.get('/api/admins')
+                .then((res) => {
+                    admins.value = res.data;
+                })
+                .catch((err) => {
+                })
+        }
+        const openEditModal = () => {
+            let myModal = new bootstrap.Modal(
+                document.getElementById("addAdminModal"),
+                {}
+            );
+            myModal.show();
+        }
+
+        const formatDate = (dateString) => {
+            return moment(dateString).format('DD/MM/YYYY'); // Format to dd/mm/yyyy
+        };
+        onMounted(async () => {
+            await fetchAdmin();
+        })
+        return {
+            openEditModal,
+            admins,
+            formatDate,
+            addAdmin,
+            form,
+            onFileSelect,
+        };
+
+    }
+}
+</script>
+
+<style></style>

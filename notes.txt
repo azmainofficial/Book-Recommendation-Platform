@@ -1,0 +1,22 @@
+route - /cateroies
+
+ApiResource use korle -
+
+GET /categories - Fetch all Data
+GET /categories/:id - Fetch Single Data
+POST /categories - create single Data
+PUT /categories/:id - update single Data
+DELETE /categories/:id - delete single Data
+
+
+
+Sob gula table er jonno
+
+Migration
+Model
+Migrate korte hy
+
+APIResource Controller Banate hbe
+Then Routes Banaite hbe
+
+Postman - API Testing
