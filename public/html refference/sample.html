@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilevel Comment Box</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .comment-section {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .comment-form img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        .comment-form button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment {
+            margin-bottom: 20px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .comment-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .comment-details {
+            flex-grow: 1;
+        }
+
+        .comment-details h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .comment-details p {
+            margin: 0;
+            font-size: 12px;
+            color: gray;
+        }
+
+        .comment-body {
+            margin-bottom: 10px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-actions button {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .reply-form {
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        .reply-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        .reply-form button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .nested-comment {
+            margin-left: 50px;
+            border-left: 2px solid #ddd;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="comment-section">
+        <!-- Comment Input Form -->
+        <div class="comment-form">
+            <img src="https://via.placeholder.com/40" alt="Profile">
+            <textarea rows="3" placeholder="Write a comment..."></textarea>
+            <button>Post</button>
+        </div>
+
+        <!-- Existing Comments -->
+        <div class="comment">
+            <div class="comment-header">
+                <img src="https://via.placeholder.com/40" alt="Profile">
+                <div class="comment-details">
+                    <h4>John Doe</h4>
+                    <p>December 21, 2024, 12:30 PM</p>
+                </div>
+            </div>
+            <div class="comment-body">
+                This is a sample comment. Reply below!
+            </div>
+            <div class="comment-actions">
+                <button onclick="toggleReplyForm('reply1')">Reply</button>
+            </div>
+
+            <!-- Reply Form -->
+            <div id="reply1" class="reply-form">
+                <textarea rows="3" placeholder="Write a reply..."></textarea>
+                <button>Reply</button>
+            </div>
+
+            <!-- Nested Comment -->
+            <div class="nested-comment">
+                <div class="comment-header">
+                    <img src="https://via.placeholder.com/40" alt="Profile">
+                    <div class="comment-details">
+                        <h4>Jane Smith</h4>
+                        <p>December 21, 2024, 1:00 PM</p>
+                    </div>
+                </div>
+                <div class="comment-body">
+                    This is a nested reply to the above comment.
+                </div>
+                <div class="comment-actions">
+                    <button onclick="toggleReplyForm('reply2')">Reply</button>
+                </div>
+                <div id="reply2" class="reply-form">
+                    <textarea rows="3" placeholder="Write a reply..."></textarea>
+                    <button>Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleReplyForm(id) {
+            const replyForm = document.getElementById(id);
+            if (replyForm.style.display === "none" || replyForm.style.display === "") {
+                replyForm.style.display = "block";
+            } else {
+                replyForm.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

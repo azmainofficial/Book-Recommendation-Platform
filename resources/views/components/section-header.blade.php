@@ -1,0 +1,2 @@
+@props(['title'])
+<h1 class="heading"><span>{{ $title }}</span></h1>
